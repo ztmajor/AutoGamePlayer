@@ -2,6 +2,7 @@ from OutputSimulator import doClick
 from utils import random_sleep
 import cv2
 
+from unitaction import UnitAction
 
 def gen_pos_dict(img):
     full_h, full_w, channal = img.shape

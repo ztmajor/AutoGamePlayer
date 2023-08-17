@@ -13,6 +13,10 @@ from PIL import Image
 
 import matplotlib.pyplot as plt
 
+
+from unitaction import UnitAction
+
+
 # 句柄
 FrameClass = "Chrome_WidgetWin_0"
 FrameTitle = "超能世界"
@@ -33,11 +37,13 @@ def main():
     win32gui.ShowWindow(hwnd, win32con.SW_SHOWNORMAL)
     win32gui.SetForegroundWindow(hwnd)
 
+
+    # action
     t = time.time()
     random_sleep(0.5, 2)  
     screen, screen_pil = getAppScreen(hwnd)
+    act = UnitAction(screen)
 
-    pos_dict = gen_pos_dict(screen)
     temp_hour = -1
 
     while True:
@@ -45,22 +51,22 @@ def main():
         now_hour = datetime.datetime.now().hour
 
         if temp_hour != now_hour:
-            back_to_main_page(pos_dict)
+            back_to_main_page(act)
             # 拿奖励
-            receive_hook_rewards(pos_dict)
-            back_to_main_page(pos_dict)
-            receive_graden_reward(pos_dict)
-            back_to_main_page(pos_dict)
+            receive_hook_rewards(act)
+            back_to_main_page(act)
+            receive_graden_reward(act)
+            back_to_main_page(act)
 
             # 推冒险进度200次
             for _ in range(2):
-                pass_latest_levels(screen, pos_dict)
-            back_to_main_page(pos_dict)
+                pass_latest_levels(screen, act)
+            back_to_main_page(act)
 
             # 推试炼之地200次
             for _ in range(2):
-                get_into_trial(pos_dict)
-            back_to_main_page(pos_dict)
+                get_into_trial(act)
+            back_to_main_page(act)
 
             # cv2.imwrite("test" + ".jpg", draw)
 
