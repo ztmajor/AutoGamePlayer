@@ -6,7 +6,7 @@ import numpy
 import cv2
 
 from utils import getAppScreen, random_sleep
-from utils.page_actions import *
+from AutoGamePlayer.src.action.superWorld import *
 from utils.mouse_action import doClick
 import utils.LogGenerator as logg
 from PIL import Image
@@ -14,7 +14,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 
-from unitaction import UnitAction
+from src.action import UnitAction
 
 
 # 句柄
