@@ -21,13 +21,8 @@ class UnitActionBase(object):
         action_seq, 
         min_short_wait = 0.5, 
         max_short_wait = 1., 
-<<<<<<< HEAD
         min_long_wait = 2., 
         max_long_wait = 3., 
-=======
-        min_long_wait = 2, 
-        max_long_wait = 3, 
->>>>>>> cd62064333a2a1713d76fb0684a79751b2b5e7c3
     ):
         for s in action_seq:
             x, y = self.pos_dict[s]

@@ -79,11 +79,7 @@ class SuperWorldAction(UnitActionBase):
         self.seq_click_act(point_seq)
 
     def break_through_latest_levels(self):
-<<<<<<< HEAD
         self.logger.info("Start break through the latest levels")
-=======
-        self.logger.info("开始进行过最新一关")
->>>>>>> cd62064333a2a1713d76fb0684a79751b2b5e7c3
 
         point_seq = [
             "adventure", 
@@ -94,17 +90,10 @@ class SuperWorldAction(UnitActionBase):
             "default"
         ]
 
-<<<<<<< HEAD
         self.seq_click_act(point_seq)
 
     def receive_afk_rewards(self):
         self.logger.info("receive afk rewards")
-=======
-        self.seq_click_act(point_seq, self.long_wait_seq)
-
-    def receive_afk_rewards(self):
-        self.logger.info("领取挂机奖励")
->>>>>>> cd62064333a2a1713d76fb0684a79751b2b5e7c3
 
         point_seq = [
             "adventure", 
@@ -115,11 +104,7 @@ class SuperWorldAction(UnitActionBase):
         self.seq_click_act(point_seq)
 
     def receive_graden_rewards(self):
-<<<<<<< HEAD
         self.logger.info("receive evergraden rewards")
-=======
-        self.logger.info("领取永恒花园挂机奖励")
->>>>>>> cd62064333a2a1713d76fb0684a79751b2b5e7c3
 
         point_seq = [
             "mainCity", 
@@ -131,11 +116,7 @@ class SuperWorldAction(UnitActionBase):
         self.seq_click_act(point_seq)
 
     def get_into_trial(self):
-<<<<<<< HEAD
         self.logger.info("get into trial...")
-=======
-        self.logger.info("进入试炼之地...")
->>>>>>> cd62064333a2a1713d76fb0684a79751b2b5e7c3
 
         point_seq = [
             "wild", 
@@ -145,11 +126,7 @@ class SuperWorldAction(UnitActionBase):
         self.seq_click_act(point_seq)
 
     def place_of_trial1(self):
-<<<<<<< HEAD
         self.logger.info("Start break through the place of trial 1(no skip right)")
-=======
-        self.logger.info("试炼之地开刷（未获得skip权限）")
->>>>>>> cd62064333a2a1713d76fb0684a79751b2b5e7c3
 
         point_seq = [ 
             "fight3", 
