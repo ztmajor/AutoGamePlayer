@@ -5,16 +5,17 @@ import win32gui, win32con
 import numpy
 import cv2
 
-from utils import getAppScreen, random_sleep
+from utils import random_sleep
+from utils.screen import getAppScreen
 from AutoGamePlayer.src.action.superWorld import *
 from utils.mouse_action import doClick
-import utils.LogGenerator as logg
+import AutoGamePlayer.src.utils.log as logg
 from PIL import Image
 
 import matplotlib.pyplot as plt
 
 
-from src.action import UnitAction
+from src.action.superWorld import SuperWorldAction
 
 
 # 句柄
@@ -23,50 +24,26 @@ FrameTitle = "超能世界"
 
 
 def main():
-    # 日志
-    sys.stdout = logg.Logger(str(datetime.date.today()) + ".txt")
-    #cv2.namedWindow('screen')
-
-    # PointList = [begin_img, model_img]
-
     # 获取后台窗口的句柄，注意后台窗口不能最小化(使用SPY++获取类名和窗口标题)
     hwnd = win32gui.FindWindow(FrameClass, FrameTitle)
     if hwnd == 0:
+        print("Window not found!")
         exit(-1)
     # cWin = win32gui.FindWindowEx(pWin, 0, "subWin", None)
     win32gui.ShowWindow(hwnd, win32con.SW_SHOWNORMAL)
     win32gui.SetForegroundWindow(hwnd)
 
-
-    # action
-    t = time.time()
-    random_sleep(0.5, 2)  
     screen, screen_pil = getAppScreen(hwnd)
-    act = UnitAction(screen)
+    superWorld = SuperWorldAction(screen, log_file='/media/my/workspace/fun/AutoGamePlayer/log/default.txt')
 
     temp_hour = -1
-
     while True:
 
         now_hour = datetime.datetime.now().hour
 
+        # 小时数不同就运行一次
         if temp_hour != now_hour:
-            back_to_main_page(act)
-            # 拿奖励
-            receive_hook_rewards(act)
-            back_to_main_page(act)
-            receive_graden_reward(act)
-            back_to_main_page(act)
-
-            # 推冒险进度200次
-            for _ in range(2):
-                pass_latest_levels(screen, act)
-            back_to_main_page(act)
-
-            # 推试炼之地200次
-            for _ in range(2):
-                get_into_trial(act)
-            back_to_main_page(act)
+            superWorld.daily_routine()
 
             # cv2.imwrite("test" + ".jpg", draw)
 
@@ -78,7 +55,6 @@ def main():
 
         
     print("done!")
-
 
 
 if __name__ == "__main__":
