@@ -57,13 +57,55 @@ def solo_push(engine, type="levels"):
 
         
 def main():
-    engine = SuperWorldAction(log_file='../log/default.txt', 
+    # 获取后台窗口的句柄，注意后台窗口不能最小化(使用SPY++获取类名和窗口标题)
+    hwnd = win32gui.FindWindow(FrameClass, FrameTitle)
+    if hwnd == 0:
+        print("Window not found!")
+        exit(-1)
+    # cWin = win32gui.FindWindowEx(pWin, 0, "subWin", None)
+    win32gui.ShowWindow(hwnd, win32con.SW_SHOWNORMAL)
+    win32gui.SetForegroundWindow(hwnd)
+
+    screen, screen_pil = getAppScreen(hwnd)
+    # DEBUG
+    # # cv2.imwrite("test" + ".jpg", screen)
+    # full_h, full_w, channal = screen.shape
+
+    # # 底部条的横向位置
+    # botton_bar_unit_weight = int(full_w / 14)
+    # # 底部条的纵向位置
+    # botton_bar_height = int(full_h - 50)
+
+    # center = (botton_bar_unit_weight * 7, int(full_h - 180))
+    # screen = cv2.circle(screen, center, 5, (0,255,0), 8)
+    # # Display the image
+    # cv2.imshow("Image", screen)
+    
+    # # Wait for the user to press a key
+    # cv2.waitKey(0)
+    
+    # # Close all windows
+    # cv2.destroyAllWindows()
+    # import pdb
+    # pdb.set_trace()
+
+    matchingWindows = pygetwindow.getWindowsWithTitle(FrameTitle)
+    win = matchingWindows[0]
+    win.activate()
+    # win.maximize()
+    win.moveTo(0, 0)
+
+    # sleep 为了等待activate响应，然后截屏，避免截到其他窗口
+    # time.sleep(1)
+    # screen = pyautogui.screenshot(region=(win.left, win.top, win.width, win.height))
+
+    engine = SuperWorldAction(screen, 
+                              log_file='../log/default.txt', 
                               title=FrameTitle)
 
     mode = input(
         "please select mode. \n"
-        "0: daily"
-        "1: shua, "
+        "1: daily, "
         "2: levels, "
         "3: trial1, "
         "4: trial2, "
@@ -72,9 +114,7 @@ def main():
         ":\n")    
 
 
-    if mode == "0":
-        engine.daily_routine_first()
-    elif mode == "1":
+    if mode == "1":
         daily_routine(engine)
     elif mode == "2":
         solo_push(engine, "levels")
