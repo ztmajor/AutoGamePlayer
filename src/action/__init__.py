@@ -35,8 +35,8 @@ class UnitActionBase(object):
     def keyborad_input(
         self, 
         code_str, 
-        min_wait=0.5,
-        max_wait=1.,
+        min_wait=0.2,
+        max_wait=0.5,
     ):
         self.logger.info(f"input {code_str}")
         for s in code_str:

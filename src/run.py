@@ -49,8 +49,6 @@ def solo_push(engine, type="levels"):
             engine.place_of_trial2()
         elif type == "sea":
             engine.sea()
-        elif type == "activate_codes":
-            engine.input_activate_codes()
         else:
             print(f"wrong solo push type {type}")
             break
@@ -62,12 +60,12 @@ def main():
 
     mode = input(
         "please select mode. \n"
-        "0: daily"
-        "1: shua, "
-        "2: levels, "
-        "3: trial1, "
-        "4: trial2, "
-        "5: sea, "
+        "0: daily |"
+        "1: shua | "
+        "2: levels | "
+        "3: trial1 | "
+        "4: trial2 | "
+        "5: sea | "
         "6: activate_codes "
         ":\n")    
 
@@ -85,7 +83,7 @@ def main():
     elif mode == "5":
         solo_push(engine, "sea")
     elif mode == "6":
-        solo_push(engine, "activate_codes")
+        engine.input_activate_codes()
     else:
         raise NotImplementedError("")
     

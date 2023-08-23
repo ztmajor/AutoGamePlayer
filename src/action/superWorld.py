@@ -66,7 +66,8 @@ class SuperWorldAction(UnitActionBase):
         else:
             raise NotImplementedError(f"Not implemented platform {platform}")
 
-    def get_pic_path(self, dir, platform, mode, name):
+    def get_pic_path(self, platform, mode, name):
+        dir = r"E:\project\AutoGamePlayer\data\template\superWorld"
         return os.path.join(dir, platform, mode, f"{name}.png")
 
     def init_app(self):
@@ -85,10 +86,16 @@ class SuperWorldAction(UnitActionBase):
         self.pos_dict = {
             "default": (int(self.bar_w / 2),  botton_bar_click_h), 
             "avatar": (bar_unit_w7, top_bar_click_h), 
-            # "gift_code": (450, 370), 
-            # "input_line": (330, 560), 
-            # "qw": (240, 610), 
-            # "dw": (300, 680), 
+            "gift_code": (550, 450), 
+            "input_line": (380, 700), 
+            "dw": (385, 850), 
+            "pos6_1": (bar_unit_w6, botton_bar_click_h), 
+            "pos6_2": (bar_unit_w6*3, botton_bar_click_h), 
+            "pos6_3": (bar_unit_w6*5, botton_bar_click_h), 
+            "pos6_4": (bar_unit_w6*7, botton_bar_click_h), 
+            "pos6_5": (bar_unit_w6*9, botton_bar_click_h), 
+            "pos6_6": (bar_unit_w6*11, botton_bar_click_h), 
+            "gift": (210, 500), 
 
             # == main city ==
             "main_city": (bar_unit_w7,  botton_bar_click_h), 
@@ -125,7 +132,7 @@ class SuperWorldAction(UnitActionBase):
         self.pos_dict = {
             "default": (botton_bar_unit_weight * 7,  botton_bar_height), 
             "avatar": (50, 100), 
-            "dhm": (450, 370), 
+            "gift_code": (450, 370), 
             "input_line": (330, 560), 
             "qw": (240, 610), 
             "dw": (300, 680), 
@@ -186,23 +193,29 @@ class SuperWorldAction(UnitActionBase):
         # ~ 第一次领取aft rewards
         # self.receive_afk_rewards()
 
-        # ~ 挑战冒险关卡一次
-        self.break_through_latest_levels()
-        while True:
-            # 判断是否回到对应界面，不然就一直点，避免打到首领后面卡住
-            pos = get_loc_on_screen(self.get_pic_path(r"E:\project\AutoGamePlayer\data\template\superWorld",
-                                                      "app", "adventure", "adventure"), 
-                                    self.screen_rect, confidence=0.9)
-            if pos is not None:
-                self.logger.info("已返回冒险界面")
-                break
-            self.logger.info("未返回冒险界面")
-            self.seq_click_act(["skip", "default"])
-            random_sleep(10, 15)
+        # # ~ 挑战冒险关卡一次
+        # self.break_through_latest_levels()
+        # while True:
+        #     # 判断是否回到对应界面，不然就一直点，避免打到首领后面卡住
+        #     pos = get_loc_on_screen(self.get_pic_path("app", "adventure", "adventure"), 
+        #                             self.screen_rect, confidence=0.9)
+        #     if pos is not None:
+        #         self.logger.info("已返回冒险界面")
+        #         break
+        #     self.logger.info("未返回冒险界面")
+        #     self.seq_click_act(["skip", "default"])
+        #     random_sleep(10, 15)
         
-        # ~ 第二次领取aft rewards
-        self.receive_afk_rewards()
+        # # ~ 第二次领取aft rewards
+        # self.receive_afk_rewards()
 
+        # TODO: ~ 领各种礼包
+        self.back_to_main_page()
+        ## ~ 每日礼包
+        self.logger.info("每日礼包")
+        pos = get_loc_on_screen(self.get_pic_path("app", "maincity", "gift"), 
+                                self.screen_rect, confidence=0.9)
+        self.seq_click_act(["pos6_3", "gift", "pos6_4", "gift", "pos6_5", "gift", "pos6_1"])
 
 
     def back_to_main_page(self):
@@ -304,21 +317,16 @@ class SuperWorldAction(UnitActionBase):
 
         for code in activate_code_list:
             point_seq = [
-                'dhm', 
-                # 'input_line', 
+                'gift_code', 
+                'input_line', 
             ]
             self.seq_click_act(point_seq)
 
-            import pyautogui
-            import time
-            pyautogui.mouseDown((330, 560))
-            time.sleep(1)
-            pyautogui.mouseUp((330, 560))
-
             self.keyborad_input(code)
+            # self.keyborad_input("enter")
 
             point_seq = [
-                'qw',
+                'dw',
                 'dw', 
                 'default', 
                 'default', 
@@ -330,8 +338,9 @@ class SuperWorldAction(UnitActionBase):
                 min_long_wait = 0.5, 
                 max_long_wait = 1.,
             )
-            
-
+        
+        # 返回主界面
+        self.seq_click_act(['default'])
 
 activate_code_list = [
     # 'CN666', 'CN888', 'CN999', 
@@ -344,7 +353,7 @@ activate_code_list = [
     # 'CNCJ666', 'CNCJ888', 'CNCJ999', 
     # 'FZP001', 'JQFL999', 
     # 'CNSJ123', 'CNSJ666', 'CNSJ999', 'CNQX777', 
-    'Hxdhxd', 'Gkdgkd', '648648', 
-    'Cnznq111', 'Cnznq666', 'Cnznq999', 
+    # 'Hxdhxd', 'Gkdgkd', '648648', 
+    # 'Cnznq111', 'Cnznq666', 'Cnznq999', 
     'qejfl52013', 'hanikezi', 'HNKZ'
 ]
