@@ -66,7 +66,8 @@ def main():
         "3: trial1 | "
         "4: trial2 | "
         "5: sea | "
-        "6: activate_codes "
+        "6: activate_codes | "
+        "-1: DEBUG"
         ":\n")    
 
 
@@ -84,6 +85,8 @@ def main():
         solo_push(engine, "sea")
     elif mode == "6":
         engine.input_activate_codes()
+    elif mode == "-1":
+        engine.ever_garden(reward=False, playground=False, hole=True)
     else:
         raise NotImplementedError("")
     

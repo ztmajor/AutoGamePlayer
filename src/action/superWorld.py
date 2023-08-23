@@ -83,7 +83,7 @@ class SuperWorldAction(UnitActionBase):
         bar_unit_w7 = int(self.bar_w / 14)
         bar_unit_w6 = int(self.bar_w / 12)
 
-        self.pos_dict = {
+        self.abs_pos_dict = {
             "default": (int(self.bar_w / 2),  botton_bar_click_h), 
             "avatar": (bar_unit_w7, top_bar_click_h), 
             "gift_code": (550, 450), 
@@ -99,8 +99,15 @@ class SuperWorldAction(UnitActionBase):
 
             # == main city ==
             "main_city": (bar_unit_w7,  botton_bar_click_h), 
-            # "ever_garden": (botton_bar_unit_weight * 9,  int(botton_bar_height - 400)), 
-            # "garden_reward": (botton_bar_unit_weight * 13,  int(botton_bar_height - 250)), 
+            "ever_garden": (bar_unit_w7*9,  int(self.screen_h - (self.botton_bar_h*5))), 
+            "garden_reward": (bar_unit_w6*11,  int(self.screen_h - (self.botton_bar_h*2.5))), 
+            "cljy": (380, 530), 
+            "explore_reward": (bar_unit_w7*2, int(self.screen_h - (self.botton_bar_h*2))),
+            "fast_explore": (bar_unit_w6*11, int(self.screen_h - (self.botton_bar_h*2))), 
+            "explore": (bar_unit_w6*6, int(self.screen_h - (self.botton_bar_h*2))), 
+            "back2hall": (bar_unit_w6*2, botton_bar_click_h), 
+            "raffle": (bar_unit_w6*6, int(self.screen_h - (self.botton_bar_h*1.5))), # 抽奖
+            "attack": (bar_unit_w6*3, int(self.screen_h - (self.botton_bar_h*3))), 
 
             # == wild ==
             "wild": (bar_unit_w7 * 3,  botton_bar_click_h),
@@ -129,7 +136,7 @@ class SuperWorldAction(UnitActionBase):
         # 底部条的纵向位置
         botton_bar_height = int(self.full_h - 50)
 
-        self.pos_dict = {
+        self.abs_pos_dict = {
             "default": (botton_bar_unit_weight * 7,  botton_bar_height), 
             "avatar": (50, 100), 
             "gift_code": (450, 370), 
@@ -153,15 +160,12 @@ class SuperWorldAction(UnitActionBase):
             "reward": (botton_bar_unit_weight * 13, int(full_h - 180)),
         }
 
-    def pos_dict_pic(self):
-        pass
-
     def daily_routine(self):
         self.back_to_main_page()
         # 拿奖励
         self.receive_afk_rewards()
         self.back_to_main_page()
-        self.receive_graden_rewards()
+        self.ever_garden(reward=True, hole=False)
         self.back_to_main_page()
 
         # 推冒险进度200次
@@ -188,9 +192,9 @@ class SuperWorldAction(UnitActionBase):
         if flag != 'y':
             return
 
-        # self.back_to_main_page()
+        self.back_to_main_page()
 
-        # ~ 第一次领取aft rewards
+        # # ~ 第一次领取aft rewards
         # self.receive_afk_rewards()
 
         # # ~ 挑战冒险关卡一次
@@ -209,13 +213,15 @@ class SuperWorldAction(UnitActionBase):
         # # ~ 第二次领取aft rewards
         # self.receive_afk_rewards()
 
-        # TODO: ~ 领各种礼包
-        self.back_to_main_page()
-        ## ~ 每日礼包
-        self.logger.info("每日礼包")
-        pos = get_loc_on_screen(self.get_pic_path("app", "maincity", "gift"), 
-                                self.screen_rect, confidence=0.9)
-        self.seq_click_act(["pos6_3", "gift", "pos6_4", "gift", "pos6_5", "gift", "pos6_1"])
+        # ~ 永绿花园
+
+        # # TODO: ~ 领各种礼包
+        # self.back_to_main_page()
+        # ## ~ 每日礼包
+        # self.logger.info("每日礼包")
+        # pos = get_loc_on_screen(self.get_pic_path("app", "maincity", "gift"), 
+        #                         self.screen_rect, confidence=0.9)
+        # self.seq_click_act(["pos6_3", "gift", "pos6_4", "gift", "pos6_5", "gift", "pos6_1"])
 
 
     def back_to_main_page(self):
@@ -249,17 +255,44 @@ class SuperWorldAction(UnitActionBase):
 
         self.seq_click_act(point_seq)
 
-    def receive_graden_rewards(self):
-        self.logger.info("receive evergraden rewards")
+    def ever_garden(self, reward=False, playground=False, hole=False):
+        self.logger.info(f"Ever Graden. 收菜 {reward} | 游乐园抽奖 {playground} | 树洞 {hole}")
 
-        point_seq = [
-            "main_city", 
-            "ever_garden", 
-            "garden_reward",
-            "default"
-        ]
+        # point_seq = []
+        point_seq = ["ever_garden"]
+
+        if reward:
+            point_seq += ["garden_reward", "default"]
+        if hole:
+            point_seq += ['pos6_3', 'cljy', 
+                          'explore_reward', 'default', 
+                          'fast_explore', 'explore', 'default', 'default', 
+                          'back2hall', 'pos6_1']
 
         self.seq_click_act(point_seq)
+
+        if playground:
+            self.seq_click_act(['pos6_6'])
+            self.seq_click_act(['raffle'], press_time=1.0)
+
+            while get_loc_on_screen(self.get_pic_path("app", "maincity", "subscribe_privilege"), 
+                                    self.screen_rect, confidence=0.9) is None:
+                # check stop, 是否出现订阅特权
+
+                is_attack = get_loc_on_screen(self.get_pic_path("app", "maincity", "select_attack"), 
+                                    self.screen_rect, confidence=0.9) is not None
+                # check attack, 是否进入攻击状态
+                if is_attack:
+                    # TODO: 之后遇到双弓的时候再进行修补， 已完成三弓的情况
+                    # 攻击的话会有龙的长时间的攻击动画
+                    self.seq_click_act(['attack'], min_short_wait=12, max_short_wait=15)
+                    
+                    # 领取奖励的位置
+                    self.seq_click_act(['pos6_6'])
+
+                random_sleep(10, 20)
+
+            self.seq_click_act(['default', 'pos6_1'])
 
     def get_into_trial(self):
         self.logger.info("get into trial...")

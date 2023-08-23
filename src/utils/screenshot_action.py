@@ -47,24 +47,8 @@ def get_loc_on_backgroud_debug(target_img, title, **kwargs):
 
 
 def get_loc_on_screen(tgt_img, region, **kwargs):
-    pyautogui.screenshot(imageFilename='./test.png', region=region)
+    # pyautogui.screenshot(imageFilename='./test.png', region=region)
     pos_res = locateOnScreen(tgt_img, region=region, **kwargs)
     print("pos_res", pos_res)
 
     return pos_res
-
-
-if __name__ == "__main__":
-    # target_img = r'E:\project\AutoGamePlayer\data\template\ygzh.png'
-    target_img = r'E:\project\AutoGamePlayer\data\template\superWorld\app\adventure\adventure.png'
-    img_loc = get_loc_on_backgroud_debug(target_img, '腾讯手游助手【标准引擎】', confidence=0.9)
-    # img_loc = get_loc_on_backgroud(target_img, '超能世界', confidence=0.9)
-
-    # if img_loc is not None:
-    #     img_click_point = pyautogui.center(img_loc)
-    #     x, y = img_click_point
-    #     doClick(x, y)
-
-        # im = pyautogui.screenshot(imageFilename='./test.png', region=(0,0, 300, 400))
-    # else:
-    #     print("未找到对应位置")

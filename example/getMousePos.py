@@ -1,5 +1,6 @@
 import pyautogui
 
+
 def get_mouse_position():
     print('Press Ctrl-C to quit.')
     try:
@@ -12,4 +13,6 @@ def get_mouse_position():
     except KeyboardInterrupt:
         print('\n')
 
-get_mouse_position()
+
+if __name__ == "__main__":
+    get_mouse_position()
