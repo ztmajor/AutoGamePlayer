@@ -46,9 +46,29 @@ def get_loc_on_backgroud_debug(target_img, title, **kwargs):
     return pos_res
 
 
-def get_loc_on_screen(tgt_img, region, **kwargs):
-    # pyautogui.screenshot(imageFilename='./test.png', region=region)
-    pos_res = locateOnScreen(tgt_img, region=region, **kwargs)
-    print("pos_res", pos_res)
+def get_loc_on_screen(tgt_img, region, center=True, **kwargs):
+    pyautogui.screenshot(imageFilename='./test.png', region=region)
+    pos_res = pyautogui.locateOnScreen(tgt_img, region=region, **kwargs)
 
-    return pos_res
+    
+    # pos_res = pyautogui.locateCenterOnScreen(tgt_img, region=region, **kwargs)
+    # print("pos_res", pos_res)
+    if center:
+        center_pos = pyautogui.center(pos_res) if pos_res is not None else None
+        return center_pos
+    else:
+        return pos_res
+
+
+def get_all_loc_on_screen(tgt_img, region, center=True, **kwargs):
+    pos_res_list = pyautogui.locateAllOnScreen(tgt_img, region=region, **kwargs)
+
+    if center:
+        if pos_res_list is None:
+            return None
+        center_pos = []
+        for pos_res in pos_res_list:
+            center_pos.append(pyautogui.center(pos_res))
+        return center_pos
+    else:
+        return pos_res_list

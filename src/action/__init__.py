@@ -13,6 +13,18 @@ class UnitActionBase(object):
 
         self.long_wait_seq = ["default"]
 
+    def click_act(
+            self, 
+            x, 
+            y, 
+            press_time = 0.1,
+            min_wait = 1., 
+            max_wait = 2.
+        ):
+        doClick(int(x), int(y), press_time)
+
+        random_sleep(min_wait, max_wait)
+
     def seq_click_act(
         self, 
         action_seq, 
