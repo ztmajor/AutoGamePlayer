@@ -33,3 +33,8 @@ def ctrl_c():
         return
     with pyautogui.hold('shift'):
         pyautogui.press('c')
+
+
+def keyborad_press(key):
+    pyautogui.press(key)
+

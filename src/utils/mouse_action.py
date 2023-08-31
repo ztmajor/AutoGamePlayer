@@ -1,9 +1,12 @@
+import time
 import pyautogui
 
 
-def doClick(cx, cy):
+def doClick(cx, cy, press_time=0.2):
     pyautogui.moveTo(cx, cy)
-    pyautogui.click()
+    pyautogui.mouseDown()
+    time.sleep(press_time)
+    pyautogui.mouseUp()
 
     # or
     # pyautogui.click(cx, cy)
@@ -14,6 +17,13 @@ def eliminate(x1, y1, x2 ,y2):
 
     pyautogui.moveTo(x2, y2)
     pyautogui.click()
+
+
+def drag(start, end, duration=2, button='left'):
+    s_x, s_y = start
+    e_x, e_y = end
+    pyautogui.moveTo(s_x, s_y)
+    pyautogui.dragTo(e_x, e_y, duration, button=button)     
 
 
 def get_mouse_position():
