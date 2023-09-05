@@ -10,8 +10,42 @@ import pygetwindow
 import pyautogui
 
 
-from utils.screen import getAppScreen
-from autogameplayer.game.superworld.superWorld import SuperWorldAction
+from autogameplayer.utils.io.screen import getAppScreen
+from autogameplayer.game.superworld.action import SuperWorldAction
+
+
+def daily_routine(
+    engine, 
+    adventrue_loop=100, 
+    trail_loop=20, 
+    skip_right=False, 
+    after1720=False
+):
+    temp_hour = -10
+    while True:
+
+        now = datetime.datetime.now()
+        weekday = now.weekday()
+        weekday_str = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'][weekday]
+        print("今天是", weekday_str)
+        now_hour = now.hour
+        print(f"现在时间为 {now_hour}, 上一次运行时间为 {temp_hour}, 间隔 {now_hour - temp_hour}")
+
+        # 小时数相隔7就运行一次
+        if (now_hour - temp_hour) >= 7:
+            engine.daily_routine(weekday, 
+                                 adventrue_loop=adventrue_loop, 
+                                 trail_loop=trail_loop, 
+                                 skip_right=skip_right, 
+                                 after1720=after1720)
+
+            # cv2.imwrite("test" + ".jpg", draw)
+
+            temp_hour = now_hour
+
+        time.sleep(60 * 20)
+        # now_t = time.time()
+        # print("用时：", now_t - t)
 
 
 def solo_push(engine, loop=1, solo_task="advanture"):
@@ -63,22 +97,21 @@ def main(FrameTitle, platform, skip_right, after1720):
                               platform=platform)
     now = datetime.datetime.now()
     weekday = now.weekday()
-    # weekday_str = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'][weekday]
-    # print(now)
-    # print(weekday)
-    # print(weekday_str)
+    weekday_str = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'][weekday]
+    print(now)
+    print(weekday)
+    print(weekday_str)
 
-    mode = 2
-    # mode = input(
-    #     "please select mode. \n"
-    #     "0: DEBUG | "
-    #     "1: daily_first | "
-    #     "2: daily_routine | "
-    #     "3: advanture | "
-    #     "4: solo_push | "
-    #     "5: trial | "
-    #     "6: activate_codes | "
-    #     ":\n")    
+    mode = input(
+        "please select mode. \n"
+        "0: DEBUG | "
+        "1: daily_first | "
+        "2: daily_routine | "
+        "3: advanture | "
+        "4: solo_push | "
+        "5: trial | "
+        "6: activate_codes | "
+        ":\n")    
 
 
     if mode == "0":
@@ -89,11 +122,11 @@ def main(FrameTitle, platform, skip_right, after1720):
     elif mode == "1":
         engine.daily_routine_first()
     elif mode == "2":
-        engine.daily_routine(weekday, 
-                            adventrue_loop=100, 
-                            trail_loop=50, 
-                            skip_right=skip_right, 
-                            after1720=after1720)
+        daily_routine(engine, 
+                      adventrue_loop=100, 
+                      trail_loop=50, 
+                      skip_right=skip_right, 
+                      after1720=after1720)
     elif mode == "3":
         solo_push(engine, "advanture")
     elif mode == "4":
@@ -128,21 +161,6 @@ if __name__ == "__main__":
         "after1720": False
     }
 
-    temp_hour = -10
-    while True:
-        now = datetime.datetime.now()
-        weekday = now.weekday()
-        weekday_str = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'][weekday]
-        print("今天是", weekday_str)
-        now_hour = now.hour
-        print(f"现在时间为 {now_hour}, 上一次运行时间为 {temp_hour}, 间隔 {now_hour - temp_hour}")
-
-        if (now_hour - temp_hour) >= 7:
-            for cfg in [config1, config2]:
-            # for cfg in [config1]:
-
-                main(**cfg)
-
-        temp_hour = now_hour
-
-        time.sleep(60 * 20)
+    for cfg in [config1, config2]:
+    # for cfg in [config1]:
+        main(**cfg)

@@ -22,10 +22,10 @@ setup(
         "pyautogui",
         "configargparse"
     ],
-    entry_points={
-        "console_scripts": [
-            "start=autogameplayer.bin.start:main", 
-        ],
-    },
+    # entry_points={
+    #     "console_scripts": [
+    #         "start=autogameplayer.bin.start:main", 
+    #     ],
+    # },
     platforms='any',
 )

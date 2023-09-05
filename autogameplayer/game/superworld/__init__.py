@@ -1,9 +1,9 @@
 import time
 import random
-from utils import random_sleep
-from utils.mouse_action import doClick, drag
-from utils.keyboard_action import keyborad_press
-from utils.log import init_logger
+from autogameplayer.utils import random_sleep
+from autogameplayer.utils.mouse_action import doClick, drag
+from autogameplayer.utils.keyboard_action import keyborad_press
+from autogameplayer.utils.log import init_logger
 
 
 class UnitActionBase(object):

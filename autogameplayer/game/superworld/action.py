@@ -4,8 +4,8 @@ import time
 import pygetwindow
 
 from autogameplayer.game.superworld import UnitActionBase
-from utils import random_sleep
-from utils.screenshot_action import get_loc_on_screen, get_all_loc_on_screen
+from autogameplayer.utils import random_sleep
+from autogameplayer.utils.io.screenshot_action import get_loc_on_screen, get_all_loc_on_screen
 
 class SuperWorldAction(UnitActionBase):
     def __init__(self, log_file, title, platform="app") -> None:
