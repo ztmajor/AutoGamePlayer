@@ -12,16 +12,37 @@ import numpy as np
 from typing import List, Tuple
 
 
-class GameBase(object):
-    """统计分析保存对局信息
+class GameInfoBase(object):
+    """统计分析保存一个对局的信息类
         
     1. 整局排名情况，1-8的用户ID
     2. 不同排名的阵容（羁绊+棋子名称与星级）
     3. hextech
     4. 其他信息（英雄之力s9/）
     """
-    def __init__(self) -> None:
+    def __init__(self, gameInfoDict) -> None:
+
+        self.ranks = []
+
+        # rank 1-8
+        self.user_id = []
+        self.lineup = []
+
+        # 英雄之力
+        self.legend = []
+        self.hextech = []
+
+    def from_img(self, img):
+        # 分割结算界面/结果界面的内容，提取对应信息
+
         pass
+
+    def __getitem__(self, item):
+        return self.smiles[item], self.graphs[item], self.labels[item], self.masks[item]
+
+    def __len__(self):
+        return len(self.smiles)
+
 
 
 class LineUpBase(object):
