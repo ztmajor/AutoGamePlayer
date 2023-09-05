@@ -3,7 +3,7 @@ import cv2
 import time
 import pygetwindow
 
-from action import UnitActionBase
+from autogameplayer.game.superworld import UnitActionBase
 from utils import random_sleep
 from utils.screenshot_action import get_loc_on_screen, get_all_loc_on_screen
 

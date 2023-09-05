@@ -11,7 +11,7 @@ import pyautogui
 
 
 from utils.screen import getAppScreen
-from action.superWorld import SuperWorldAction
+from autogameplayer.game.superworld.superWorld import SuperWorldAction
 
 
 # 句柄
