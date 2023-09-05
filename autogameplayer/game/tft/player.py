@@ -12,13 +12,13 @@
 from tft import PlayerBase
 
 
-class Player1(PlayerBase):
+class Player(PlayerBase):
     """
 
     Args:
         object (_type_): _description_
     """
-    def __init__(self) -> None:
+    def __init__(self, id) -> None:
         pass
     
 

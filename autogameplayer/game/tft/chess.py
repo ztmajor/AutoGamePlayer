@@ -9,13 +9,13 @@
 '''
 
 
-from typing import List
+from typing import List, Dict
 from tft import ChessBase
 
 
 
 class Chess(ChessBase):
-    def __init__(self, name: str, trait: List[str], equipment=None) -> None:
-        super().__init__(name, trait, equipment)
+    def __init__(self, name: str, metaDataDict:Dict[str, str], equipment: List[str]=None) -> None:
+        super().__init__(name, equipment)
 
-        pass
+        self.metaDataDict = metaDataDict
