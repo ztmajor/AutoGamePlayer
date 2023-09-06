@@ -43,9 +43,9 @@ if __name__ == "__main__":
 
     win = matchingWindows[0]
     win.activate()
-    win.maximize()
+    # win.maximize()
     print(win.isMaximized)
-    # win.moveTo(0, 0)
+    win.moveTo(0, 0)
     time.sleep(1)
 
     screen_region = (win.left, win.top, win.width, win.height)
