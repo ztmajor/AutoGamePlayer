@@ -31,7 +31,8 @@ def test_data(tgt_img, screen_region):
 
 
 if __name__ == "__main__":
-    title = '腾讯手游助手【标准引擎】'
+    # title = '腾讯手游助手【标准引擎】'
+    title = '腾讯手游助手(64位)'
     matchingWindows = pygetwindow.getWindowsWithTitle(title)
     if len(matchingWindows) == 0:
         raise Exception('Could not find a window with %s in the title' % (title))
@@ -43,15 +44,16 @@ if __name__ == "__main__":
     win = matchingWindows[0]
     win.activate()
     # win.maximize()
-    # print(win.isMaximized)
-    # win.moveTo(0, 0)
+    print(win.isMaximized)
+    win.moveTo(0, 0)
+    time.sleep(1)
 
     screen_region = (win.left, win.top, win.width, win.height)
+    pyautogui.screenshot(imageFilename='./test.png', region=screen_region)
 
 
-    target_img = get_pic_path(platform='app', mode='maincity', name='select_attack')
-    test_data(target_img, screen_region)
-    # pyautogui.screenshot(imageFilename='./test.png', region=screen_region)
+    # target_img = get_pic_path(platform='app', mode='maincity', name='select_attack')
+    # test_data(target_img, screen_region)
 
     # img_loc = get_loc_on_screen(target_img, region=(win.left, win.top, win.width, win.height), confidence=0.9)
 

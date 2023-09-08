@@ -1,7 +1,10 @@
 
 window_info = {
+    "Tencent_Mobile_Game_Assistant_TFT": {
+        "FrameTitle": "腾讯手游助手(64位)",
+    },
 
-    "Tencent_Mobile_Game_Assistant": {
+    "Tencent_Mobile_Game_Assistant_Superworld": {
         "FrameTitle": "腾讯手游助手【标准引擎】",
         "platform": "app", 
         "skip_right": True, 
