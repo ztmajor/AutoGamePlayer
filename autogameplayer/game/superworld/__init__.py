@@ -1,8 +1,7 @@
 import time
 import random
 from autogameplayer.utils import random_sleep
-from autogameplayer.utils.mouse_action import doClick, drag
-from autogameplayer.utils.keyboard_action import keyborad_press
+from autogameplayer.platform.win.io import doClick, drag, keyborad_press
 from autogameplayer.utils.log import init_logger
 
 
@@ -17,18 +16,18 @@ class UnitActionBase(object):
             self, 
             x, 
             y, 
-            press_time = 0.1,
+            interval = 0.1,
             min_wait = 1., 
             max_wait = 2.
         ):
-        doClick(int(x), int(y), press_time)
+        doClick(int(x), int(y), interval)
 
         random_sleep(min_wait, max_wait)
 
     def seq_click_act(
         self, 
         action_seq, 
-        press_time = 0.1, 
+        interval = 0.1, 
         min_short_wait = 1., 
         max_short_wait = 2., 
         min_long_wait = 3., 
@@ -38,7 +37,7 @@ class UnitActionBase(object):
             x, y = self.abs_pos_dict[s]
 
             self.logger.info(f"click {s} at ({x}, {y})")
-            doClick(int(x), int(y), press_time)
+            doClick(int(x), int(y), interval)
 
             if s in self.long_wait_seq:
                 random_sleep(min_long_wait, max_long_wait)
@@ -65,7 +64,6 @@ class UnitActionBase(object):
     ):
         self.logger.info(f"input {code_str}")
         for s in code_str:
-            keyborad_press(s)
-            random_sleep(min_wait, max_wait)
+            keyborad_press(s, interval=random.uniform(min_wait, max_wait))
         
         random_sleep(min_wait, max_wait)

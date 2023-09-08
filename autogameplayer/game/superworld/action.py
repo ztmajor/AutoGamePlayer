@@ -396,7 +396,7 @@ class SuperWorldAction(UnitActionBase):
 
         if playground:
             self.seq_click_act(['pos6_6'])
-            self.seq_click_act(['raffle'], press_time=1.0)
+            self.seq_click_act(['raffle'], interval=1.0)
 
             while get_loc_on_screen(self.get_pic_path(self.platform, "maincity", "subscribe_privilege"), 
                                     self.screen_rect, confidence=0.9) is None:

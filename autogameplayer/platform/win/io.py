@@ -5,27 +5,23 @@ from pyautogui import locateOnScreen
 
 
 # === mouse action ===
-def doClick(cx, cy, press_time=0.2):
+def doClick(cx, cy, interval=0.1):
+    """
+    注意，pyautogui.click(interval)中的interval代表多次点击之间的间隔，本函数的
+    interval表示按键按下与抬起之间的间隔(因为有时候点的太快模拟器响应有问题)
+    """
     pyautogui.moveTo(cx, cy)
     pyautogui.mouseDown()
-    time.sleep(press_time)
+    time.sleep(interval)
     pyautogui.mouseUp()
 
 
 def drag(start, end, duration=2, button='left'):
+    #TODO: 测试该函数
     s_x, s_y = start
     e_x, e_y = end
     pyautogui.moveTo(s_x, s_y)
     pyautogui.dragTo(e_x, e_y, duration, button=button)     
-
-
-def eliminate(x1, y1, x2 ,y2):
-    """消除操作"""
-    pyautogui.moveTo(x1, y1)
-    pyautogui.click()
-
-    pyautogui.moveTo(x2, y2)
-    pyautogui.click()
 
 
 def get_mouse_position():
@@ -75,29 +71,14 @@ def ctrl_c():
         pyautogui.press('c')
 
 
-def keyborad_press(key):
+def keyborad_press(key, interval=0.1):
     pyautogui.press(key)
+    time.sleep(interval)    # 防止按太快
 
 
 # === screen action ===
-def test():
-    im1 = pyautogui.screenshot()
-    im2 = pyautogui.screenshot("./test.png")
-
-    # 如果不能获取应用内部截屏，这个会很有用
-    im = pyautogui.screenshot(region=(0, 0, 300, 400))
-
-
-    x, y = pyautogui.locateAllOnScreen()
-    x, y = pyautogui.locateCenterOnScreen()
-    pyautogui.locate(needleImage, haystackImage)
-    pyautogui.locateAll(needleImage, haystackImage)
-
-
-def get_loc_on_backgroud_debug(target_img, title, **kwargs):
-    # need pyGetwindow
-    # pos_res = pyautogui.locateOnWindow(target_img, title)
-
+def get_window(title, maximize=False, moveTo=(0,0), save_path=None):
+    """获取对应窗口的截图/在屏幕中位置"""
     matchingWindows = pygetwindow.getWindowsWithTitle(title)
     if len(matchingWindows) == 0:
         raise Exception('Could not find a window with %s in the title' % (title))
@@ -108,35 +89,63 @@ def get_loc_on_backgroud_debug(target_img, title, **kwargs):
 
     win = matchingWindows[0]
     win.activate()
-    # win.maximize()
-    # print(win.isMaximized)
-    win.moveTo(0, 0)
+    if maximize:
+        win.maximize()
+        print("maximize", win.isMaximized)
+    if moveTo is not None:
+        win.moveTo(moveTo)
 
     # sleep 为了等待activate响应，然后截屏，避免截到其他窗口
     time.sleep(1)
 
-    pyautogui.screenshot(imageFilename='./test.png', region=(win.left, win.top, win.width, win.height))
-    pos_res = locateOnScreen(target_img, region=(win.left, win.top, win.width, win.height), **kwargs)
-    print("pos_res", pos_res)
+    if save_path is not None:
+        pyautogui.screenshot(imageFilename=save_path, region=(win.left, win.top, win.width, win.height))
 
-    return pos_res
+    return (win.left, win.top, win.width, win.height)
 
 
-def get_loc_on_screen(tgt_img, region, center=True, **kwargs):
-    pyautogui.screenshot(imageFilename='./test.png', region=region)
-    pos_res = pyautogui.locateOnScreen(tgt_img, region=region, **kwargs)
+def get_loc_on_window(temp_img, title, center=True, **kwargs):
+    """直接从窗口获取模板图片的位置"""
+    pos = pyautogui.locateOnWindow(temp_img, title, **kwargs)
 
-    
-    # pos_res = pyautogui.locateCenterOnScreen(tgt_img, region=region, **kwargs)
-    # print("pos_res", pos_res)
     if center:
-        center_pos = pyautogui.center(pos_res) if pos_res is not None else None
+        center_pos = pyautogui.center(pos) if pos is not None else None
         return center_pos
     else:
-        return pos_res
+        return pos
 
 
-def get_all_loc_on_screen(tgt_img, region, center=True, **kwargs):
+def get_loc_on_screen(temp_img, region, save_path=None, center=True, **kwargs):
+    """获取屏幕上模板图片的位置
+
+    Args:
+        temp_img (_type_): 模板图片，在screen上找该图片
+        region (Tuple[int, int, int ,int]): 在整个屏幕上子区域的范围
+        center (bool, optional): 是否返回中心坐标. Defaults to True.
+
+    Returns:
+        Tuple[int, int]: 返回坐标值
+    """
+    if save_path is not None:
+        # 保存屏幕截图
+        pyautogui.screenshot(imageFilename=save_path, region=region)
+    
+    # TODO: 此处代码需要测试
+    pos = pyautogui.locateAllOnScreen(temp_img, region=region, **kwargs)
+    # center_pos = pyautogui.locateCenterOnScreen(temp_img, region=region, **kwargs)
+
+    if center:
+        center_pos = pyautogui.center(pos) if pos is not None else None
+        return center_pos
+    else:
+        return pos
+
+
+def get_all_loc_on_screen(tgt_img, region, save_path=None, center=True, **kwargs):
+    if save_path is not None:
+        # 保存屏幕截图
+        pyautogui.screenshot(imageFilename=save_path, region=region)
+        
     pos_res_list = pyautogui.locateAllOnScreen(tgt_img, region=region, **kwargs)
 
     if center:
