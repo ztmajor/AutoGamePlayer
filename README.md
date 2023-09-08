@@ -13,9 +13,14 @@ pip install -e .
 - 单刷试炼之地： place_of_trial1 / place_of_trial2 （需要预先进入试炼之地）
 - 单推最新章节： break_through_latest_levels （需要进入主界面）
 
-**NEW**
+## SuperWorld
 - 联盟自动帮点-
 - 神奇树洞一键探索
 - 游乐园自动抽奖
 - 自动收送爱心
 - 使用点金手
+
+# 原子操作
+## 图片分析
+- 给定对应图片，找到图片中的对应位置
+- ORC文字提取

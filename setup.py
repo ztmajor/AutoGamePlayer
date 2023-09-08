@@ -20,7 +20,8 @@ setup(
     python_requires=">=3.5",
     install_requires=[
         "pyautogui",
-        "configargparse"
+        "configargparse", 
+        "pytesseract"       # ocr
     ],
     # entry_points={
     #     "console_scripts": [

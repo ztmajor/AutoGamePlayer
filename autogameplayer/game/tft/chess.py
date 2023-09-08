@@ -10,7 +10,7 @@
 
 
 from typing import List, Dict
-from tft import ChessBase
+from autogameplayer.game.tft import ChessBase
 
 
 
