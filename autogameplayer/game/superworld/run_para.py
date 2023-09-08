@@ -10,8 +10,8 @@ import pygetwindow
 import pyautogui
 
 
-from autogameplayer.utils.io.screen import getAppScreen
-from autogameplayer.game.tft.action import SuperWorldAction
+from autogameplayer.platform.win.screen import getAppScreen
+# from autogameplayer.game.tft.action import SuperWorldAction
 
 
 def solo_push(engine, loop=1, solo_task="advanture"):
