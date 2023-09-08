@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import pyautogui
 
 
-from autogameplayer.utils.io.screen import getAppScreen
+from autogameplayer.platform.win.screen import getAppScreen
 from autogameplayer.game.tft.action import TFTAction
 
         

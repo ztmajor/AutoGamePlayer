@@ -10,7 +10,7 @@ import pygetwindow
 import pyautogui
 
 
-from autogameplayer.utils.io.screen import getAppScreen
+from autogameplayer.platform.win.screen import getAppScreen
 from autogameplayer.game.superworld.action import SuperWorldAction
 
 

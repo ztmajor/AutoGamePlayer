@@ -1,8 +1,8 @@
 import time
 import random
 from autogameplayer.utils import random_sleep
-from autogameplayer.utils.mouse_action import doClick, drag
-from autogameplayer.utils.keyboard_action import keyborad_press
+from autogameplayer.platform.win.io import doClick, drag
+from autogameplayer.platform.win.io import keyborad_press
 from autogameplayer.utils.log import init_logger
 
 
