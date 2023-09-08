@@ -3,9 +3,9 @@ import random
 # import torch
 import numpy as np
 
-def random_sleep(min=0.5, max=1., log=False):
+def random_sleep(min=0.5, max=1., verbose=False):
     sleep_time = random.uniform(min, max)
-    if log:
+    if verbose:
         print("sleep:", sleep_time)
     time.sleep(sleep_time)
 

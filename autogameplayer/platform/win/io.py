@@ -101,7 +101,7 @@ def get_window(title, maximize=False, moveTo=(0,0), save_path=None):
     if save_path is not None:
         pyautogui.screenshot(imageFilename=save_path, region=(win.left, win.top, win.width, win.height))
 
-    return (win.left, win.top, win.width, win.height)
+    return win
 
 
 def get_loc_on_window(temp_img, title, center=True, **kwargs):
